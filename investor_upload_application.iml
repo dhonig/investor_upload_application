@@ -87,6 +87,7 @@
       <excludeFolder url="file://$MODULE_DIR$/_build/test/lib/thousand_island" />
       <excludeFolder url="file://$MODULE_DIR$/_build/test/lib/websock" />
       <excludeFolder url="file://$MODULE_DIR$/_build/test/lib/websock_adapter" />
+      <excludeFolder url="file://$MODULE_DIR$/_build/dev/lib/pow" />
     </content>
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="phoenix" level="project" />
@@ -172,5 +173,6 @@
     <orderEntry type="library" name="mix_test_watch" level="project" />
     <orderEntry type="library" name="mox" level="project" />
     <orderEntry type="library" name="hpack" level="project" />
+    <orderEntry type="library" name="pow" level="project" />
   </component>
 </module>

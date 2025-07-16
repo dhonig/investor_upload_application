@@ -1,19 +1,89 @@
-<.simple_form :let={f} for={@changeset} action={@action}>
+  <.simple_form :let={f} for={@changeset} action={@action} multipart={true}>
   <.error :if={@changeset.action}>
     Oops, something went wrong! Please check the errors below.
   </.error>
   <.input field={f[:first_name]} type="text" label="First name" />
   <.input field={f[:last_name]} type="text" label="Last name" />
-  <.input field={f[:ssn]} type="text" label="Ssn" />
+  <div>
+    <.input field={f[:ssn]} type="text" label="SSN" placeholder="XXX-XX-XXXX" />
+    <p class="mt-1 text-sm text-gray-500">Format: XXX-XX-XXXX (e.g., 123-45-6789)</p>
+  </div>
   <.input field={f[:date_of_birth]} type="date" label="Date of birth" />
-  <.input field={f[:phone_number]} type="text" label="Phone number" />
+  <div>
+    <.input field={f[:phone_number]} type="text" label="Phone number" placeholder="XXX-XXX-XXXX" />
+    <p class="mt-1 text-sm text-gray-500">Format: XXX-XXX-XXXX (e.g., 555-123-4567)</p>
+  </div>
   <.input field={f[:street_address]} type="text" label="Street address" />
   <.input field={f[:city]} type="text" label="City" />
   <.input field={f[:street_address2]} type="text" label="Street address2" />
   <.input field={f[:state]} type="text" label="State" />
-  <.input field={f[:zip_code]} type="text" label="Zip code" />
-  <.input field={f[:csv_file]} type="text" label="Csv file" />
+  <div>
+    <.input field={f[:zip_code]} type="text" label="Zip code" placeholder="XXXXX or XXXXX-XXXX" />
+    <p class="mt-1 text-sm text-gray-500">Format: XXXXX or XXXXX-XXXX (e.g., 90210 or 10022-1234)</p>
+  </div>
+  <div>
+    <.input field={f[:csv_file]} type="file" label="CSV file (Required)" accept=".csv" required />
+    <p class="mt-1 text-sm text-gray-500">Please upload a CSV file with investor data. Only .csv files are accepted.</p>
+  </div>
   <:actions>
     <.button>Save Investor</.button>
   </:actions>
 </.simple_form>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    // Auto-format SSN as user types (XXX-XX-XXXX)
+    const ssnInput = document.querySelector('input[name="investor[ssn]"]');
+    if (ssnInput) {
+      ssnInput.addEventListener('input', function(e) {
+        let value = e.target.value.replace(/\D/g, '');
+        if (value.length > 9) value = value.substr(0, 9);
+
+        if (value.length >= 3 && value.length < 5) {
+          value = value.substr(0, 3) + '-' + value.substr(3);
+        } else if (value.length >= 5) {
+          value = value.substr(0, 3) + '-' + value.substr(3, 2) + '-' + value.substr(5);
+        }
+
+        e.target.value = value;
+      });
+    }
+
+    // Auto-format Phone Number as user types (XXX-XXX-XXXX)
+    const phoneInput = document.querySelector('input[name="investor[phone_number]"]');
+    if (phoneInput) {
+      phoneInput.addEventListener('input', function(e) {
+        let value = e.target.value.replace(/\D/g, '');
+        if (value.length > 10) value = value.substr(0, 10);
+
+        if (value.length >= 3 && value.length < 6) {
+          value = value.substr(0, 3) + '-' + value.substr(3);
+        } else if (value.length >= 6) {
+          value = value.substr(0, 3) + '-' + value.substr(3, 3) + '-' + value.substr(6);
+        }
+
+        e.target.value = value;
+      });
+    }
+
+    // Auto-format Zip Code as user types (XXXXX or XXXXX-XXXX)
+    const zipInput = document.querySelector('input[name="investor[zip_code]"]');
+    if (zipInput) {
+      zipInput.addEventListener('input', function(e) {
+        let value = e.target.value.replace(/[^0-9-]/g, '');
+
+        // If we have more than 5 digits and no hyphen yet, add it
+        if (value.length > 5 && !value.includes('-')) {
+          value = value.substr(0, 5) + '-' + value.substr(5);
+        }
+
+        // Limit total length to 10 characters (XXXXX-XXXX)
+        if (value.length > 10) {
+          value = value.substr(0, 10);
+        }
+
+        e.target.value = value;
+      });
+    }
+  });
+</script>

@@ -15,6 +15,8 @@ defmodule InvestorUploadApplicationWeb.InvestorController do
   end
 
   def create(conn, %{"investor" => investor_params}) do
+    investor_params = process_uploaded_file(investor_params)
+
     case Investors.create_investor(investor_params) do
       {:ok, investor} ->
         conn
@@ -39,6 +41,7 @@ defmodule InvestorUploadApplicationWeb.InvestorController do
 
   def update(conn, %{"id" => id, "investor" => investor_params}) do
     investor = Investors.get_investor!(id)
+    investor_params = process_uploaded_file(investor_params)
 
     case Investors.update_investor(investor, investor_params) do
       {:ok, investor} ->
@@ -58,5 +61,36 @@ defmodule InvestorUploadApplicationWeb.InvestorController do
     conn
     |> put_flash(:info, "Investor deleted successfully.")
     |> redirect(to: ~p"/investors")
+  end
+
+  defp process_uploaded_file(%{"csv_file" => %Plug.Upload{} = csv_upload} = params) do
+    case upload_file(csv_upload) do
+      {:ok, filename} -> Map.put(params, "csv_file", filename)
+      {:error, _} -> params
+    end
+  end
+
+  defp process_uploaded_file(params), do: params
+
+  defp upload_file(%Plug.Upload{path: path, filename: filename}) do
+    File.mkdir_p!("priv/static/uploads")
+
+    # Preserve the original filename but ensure it's secure and unique
+    sanitized_filename = sanitize_filename(filename)
+    timestamp = :os.system_time(:millisecond)
+    new_filename = "#{timestamp}_#{sanitized_filename}"
+    new_path = Path.join("priv/static/uploads", new_filename)
+
+    case File.cp(path, new_path) do
+      :ok -> {:ok, filename}
+      {:error, _} = error -> error
+    end
+  end
+
+  # Sanitize the filename to prevent security issues
+  defp sanitize_filename(filename) do
+    filename
+    |> String.replace(~r/[^a-zA-Z0-9_.-]/, "")
+    |> String.replace(~r/^\.|\.$/, "")
   end
 end

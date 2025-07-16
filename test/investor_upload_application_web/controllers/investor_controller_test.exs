@@ -48,7 +48,13 @@ defmodule InvestorUploadApplicationWeb.InvestorControllerTest do
 
   describe "create investor" do
     test "redirects to show when data is valid", %{conn: conn} do
-      conn = post(conn, ~p"/investors", investor: @create_attrs)
+      upload = %Plug.Upload{
+        path: "test/support/fixtures/test.csv",
+        filename: "test.csv"
+      }
+      attrs = Map.put(@create_attrs, :csv_file, upload)
+
+      conn = post(conn, ~p"/investors", investor: attrs)
 
       assert %{id: id} = redirected_params(conn)
       assert redirected_to(conn) == ~p"/investors/#{id}"
@@ -76,7 +82,13 @@ defmodule InvestorUploadApplicationWeb.InvestorControllerTest do
     setup [:create_investor]
 
     test "redirects when data is valid", %{conn: conn, investor: investor} do
-      conn = put(conn, ~p"/investors/#{investor}", investor: @update_attrs)
+      upload = %Plug.Upload{
+        path: "test/support/fixtures/test.csv",
+        filename: "test.csv"
+      }
+      attrs = Map.put(@update_attrs, :csv_file, upload)
+
+      conn = put(conn, ~p"/investors/#{investor}", investor: attrs)
       assert redirected_to(conn) == ~p"/investors/#{investor}"
 
       conn = get(conn, ~p"/investors/#{investor}")

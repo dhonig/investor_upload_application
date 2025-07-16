@@ -16,6 +16,7 @@ defmodule InvestorUploadApplicationWeb.Router do
 
   scope "/", InvestorUploadApplicationWeb do
     pipe_through :browser
+    resources "/investors", InvestorController
 
     get "/", InvestorController, :index
   end

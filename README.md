@@ -55,6 +55,7 @@ The project will start on http://localhost:4000
 ### Next Steps
 
 * Add user authentication and authorization using Pow
+* Combine First,Last name and SSN fields using SHA-256, do an 'Upsert' if the same user is found
 * Implement CSV parsing and data import functionality
 * Create admin dashboard for managing investors
 * Implement data export capabilities

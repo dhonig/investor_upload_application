@@ -1,18 +1,58 @@
 # InvestorUploadApplication
 
-To start your Phoenix server:
+This project is an exercise in using Phoenix to solve a simple data entry and file upload problem.
 
-  * Run `mix setup` to install and setup dependencies
-  * Start Phoenix endpoint with `mix phx.server` or inside IEx with `iex -S mix phx.server`
+## Database Setup with Docker
 
-Now you can visit [`localhost:4000`](http://localhost:4000) from your browser.
+This project includes a Docker Compose configuration for setting up a PostgreSQL database for development and testing.
 
-Ready to run in production? Please [check our deployment guides](https://hexdocs.pm/phoenix/deployment.html).
+### Prerequisites
 
-## Learn more
+- [Docker](https://docs.docker.com/get-docker/)
+- [Docker Compose](https://docs.docker.com/compose/install/)
 
-  * Official website: https://www.phoenixframework.org/
-  * Guides: https://hexdocs.pm/phoenix/overview.html
-  * Docs: https://hexdocs.pm/phoenix
-  * Forum: https://elixirforum.com/c/phoenix-forum
-  * Source: https://github.com/phoenixframework/phoenix
+### Running PostgreSQL with Docker
+
+1. **Start the PostgreSQL container:**
+
+   ```bash
+   docker-compose up db
+   ```
+
+Then run the following commands to create and migrate your database:
+
+```bash
+mix ecto.create
+mix ecto.migrate
+```
+
+## Project Status
+
+### Work Completed
+
+* Created basic Phoenix application structure
+* Implemented investor data model with validations
+* Added form for investor data entry with field validation
+* Implemented CSV file upload functionality
+* Added input masking for formatted fields (SSN, phone number, zip code)
+* Configured Docker for development environment
+* Created comprehensive documentation
+* Added format validation for SSN, phone number, and zip code
+* Implemented date of birth validation
+* Added helper text for form fields
+
+### Next Steps
+
+* Implement CSV parsing and data import functionality
+* Add user authentication and authorization using Guardian/Pow
+* Create admin dashboard for managing investors
+* Implement data export capabilities
+* Create user roles and permissions
+* Implement email notifications
+* Add data visualization components
+* Create a RESTful API for programmatic access
+* Implement comprehensive test suite
+* Phoenix should support 8mb file uploads by default, for larger files, we can adjust the multipart parser configuration
+* Migrate frontend to Liveview and implement upload progress using Liveview features
+* Move file strorage from localhost to a cloud based object storage (S3/Azure Blob Storage/Google Cloud Storage)
+

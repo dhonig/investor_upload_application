@@ -47,6 +47,11 @@ The project will start on http://localhost:4000
 * Implemented date of birth validation
 * Added helper text for form fields
 
+
+### Work in Progress
+* Adding user registration / Authorization (dth/add_pow branch)
+
+
 ### Next Steps
 
 * Add user authentication and authorization using Pow

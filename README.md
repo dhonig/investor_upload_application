@@ -26,10 +26,16 @@ mix ecto.create
 mix ecto.migrate
 ```
 
+You can then run the project using
+```
+mix deps.get
+mix phx. server
+```
+The project will start on http://localhost:4000
+
 ## Project Status
 
 ### Work Completed
-
 * Created basic Phoenix application structure
 * Implemented investor data model with validations
 * Added form for investor data entry with field validation
@@ -43,8 +49,8 @@ mix ecto.migrate
 
 ### Next Steps
 
+* Add user authentication and authorization using Pow
 * Implement CSV parsing and data import functionality
-* Add user authentication and authorization using Guardian/Pow
 * Create admin dashboard for managing investors
 * Implement data export capabilities
 * Create user roles and permissions

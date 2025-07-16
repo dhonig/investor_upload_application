@@ -1,10 +1,35 @@
+
 defmodule InvestorUploadApplicationWeb.InvestorControllerTest do
   use InvestorUploadApplicationWeb.ConnCase
 
   import InvestorUploadApplication.InvestorsFixtures
 
-  @create_attrs %{state: "some state", first_name: "some first_name", last_name: "some last_name", ssn: "some ssn", date_of_birth: ~D[2025-07-15], phone_number: "some phone_number", street_address: "some street_address", city: "some city", street_address2: "some street_address2", zip_code: "some zip_code", csv_file: "some csv_file"}
-  @update_attrs %{state: "some updated state", first_name: "some updated first_name", last_name: "some updated last_name", ssn: "some updated ssn", date_of_birth: ~D[2025-07-16], phone_number: "some updated phone_number", street_address: "some updated street_address", city: "some updated city", street_address2: "some updated street_address2", zip_code: "some updated zip_code", csv_file: "some updated csv_file"}
+  @create_attrs %{
+    first_name: "Jane",
+    last_name: "Smith",
+    ssn: "987-65-4321",
+    date_of_birth: ~D[1985-06-15],
+    phone_number: "555-123-4567",
+    street_address: "456 Oak Ave",
+    city: "Los Angeles",
+    street_address2: "Suite 789",
+    state: "CA",
+    zip_code: "90210",
+    csv_file: "updated_investors.csv"
+  }
+  @update_attrs %{
+    first_name: "John",
+    last_name: "Doe",
+    ssn: "123-45-6789",
+    date_of_birth: ~D[1980-01-01],
+    phone_number: "212-555-1234",
+    street_address: "123 Park Ave",
+    city: "New York",
+    street_address2: "Apt 5B",
+    state: "NY",
+    zip_code: "10022",
+    csv_file: "new_investors.csv"
+  }
   @invalid_attrs %{state: nil, first_name: nil, last_name: nil, ssn: nil, date_of_birth: nil, phone_number: nil, street_address: nil, city: nil, street_address2: nil, zip_code: nil, csv_file: nil}
 
   describe "index" do
@@ -55,7 +80,7 @@ defmodule InvestorUploadApplicationWeb.InvestorControllerTest do
       assert redirected_to(conn) == ~p"/investors/#{investor}"
 
       conn = get(conn, ~p"/investors/#{investor}")
-      assert html_response(conn, 200) =~ "some updated state"
+      assert html_response(conn, 200) =~ "John"
     end
 
     test "renders errors when data is invalid", %{conn: conn, investor: investor} do

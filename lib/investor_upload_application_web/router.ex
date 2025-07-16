@@ -17,7 +17,7 @@ defmodule InvestorUploadApplicationWeb.Router do
   scope "/", InvestorUploadApplicationWeb do
     pipe_through :browser
 
-    get "/", PageController, :home
+    get "/", InvestorController, :index
   end
 
   # Other scopes may use custom stacks.
